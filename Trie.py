@@ -12,6 +12,7 @@ class TrieNode:
         self.text = text
         self.children = dict()
         self.is_word = False
+        self.matches = []
 
 
     def __str__(self):
@@ -22,6 +23,7 @@ class TrieNode:
 class PrefixTree:
     def __init__(self):
         self.root = TrieNode()
+        self.matches = []
 
 
     def display(self):
@@ -69,6 +71,7 @@ class PrefixTree:
         if current.is_word: return current
 
 
+
     def __child_words_for(self, node, words):
         '''
         Private helper function. Cycles through all children
@@ -78,6 +81,7 @@ class PrefixTree:
         '''
         if node.is_word:
             words.append(node.text)
+            self.matches.append(node.text)
         for letter in node.children:
             self.__child_words_for(node.children[letter], words)
 
@@ -96,7 +100,7 @@ class PrefixTree:
             current = current.children[char]
         
         self.__child_words_for(current, words)
-        return words
+        return self.matches
 
 
     def size(self, current = None):
